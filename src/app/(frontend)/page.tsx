@@ -105,25 +105,13 @@ export default async function Home() {
     subheadline: homepageData.hero.subheadline,
     cta: homepageData.hero.cta ? {
       text: homepageData.hero.cta.text,
-      linkType: (homepageData.hero.cta.linkType || 'section') as 'section' | 'href',
-      sectionId: homepageData.hero.cta.sectionId || undefined,
-      href: homepageData.hero.cta.url || homepageData.hero.cta.href || undefined
+      linkType: 'href' as const,
+      href: homepageData.hero.cta.url || '#contact'
     } : {
       text: 'Ξεκίνα Τώρα',
       linkType: 'section' as const,
       sectionId: 'contact'
     },
-    socialProof: homepageData.hero.socialProof || undefined,
-    image: (homepageData as any)?.hero?.heroImage && typeof (homepageData as any).hero.heroImage === 'object' 
-      ? {
-          url: `/api/media/file/${(homepageData as any).hero.heroImage.filename || ''}`,
-          alt: (homepageData as any).hero.heroImage.alt || 'Hero Image'
-        }
-      : undefined,
-    stats: (homepageData.hero.stats || []).map(stat => ({
-      value: stat.value,
-      label: stat.label
-    }))
   } : sampleHeroData
 
   const featuresData = homepageData?.features ? {
@@ -136,22 +124,13 @@ export default async function Home() {
     }))
   } : sampleFeaturesData
 
-  const processData = homepageData?.process ? {
-    title: homepageData.process.title,
-    subtitle: homepageData.process.subtitle,
-    steps: (homepageData.process.steps || []).map(step => ({
-      number: step.number,
-      icon: step.icon,
-      title: step.title,
-      description: step.description,
-      color: step.color
-    }))
-  } : sampleProcessData
+  // Use sample data for process since it's not in simplified config
+  const processData = sampleProcessData
 
   const contactData = homepageData?.contact ? {
     title: homepageData.contact.title,
     subtitle: homepageData.contact.subtitle,
-    form: homepageData.contact.formLabels
+    form: sampleContactData.form // Use sample form data
   } : sampleContactData
 
   return (

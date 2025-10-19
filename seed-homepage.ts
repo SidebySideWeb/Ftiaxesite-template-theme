@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from './payload.config'
-import { sampleHeroData, sampleFeaturesData, sampleProcessData, sampleContactData } from './src/data/sampleData'
+import { sampleHeroData, sampleFeaturesData, sampleContactData } from './src/data/sampleData'
 
 async function seedHomepage() {
   try {
@@ -17,14 +17,8 @@ async function seedHomepage() {
           subheadline: sampleHeroData.subheadline,
           cta: {
             text: sampleHeroData.cta.text,
-            linkType: sampleHeroData.cta.linkType,
-            sectionId: sampleHeroData.cta.sectionId
+            url: `#${sampleHeroData.cta.sectionId}`
           },
-          socialProof: sampleHeroData.socialProof,
-          stats: sampleHeroData.stats?.map(stat => ({
-            value: stat.value,
-            label: stat.label
-          })) || []
         },
         features: {
           title: sampleFeaturesData.title,
@@ -35,30 +29,10 @@ async function seedHomepage() {
             description: item.description
           }))
         },
-        process: {
-          title: sampleProcessData.title,
-          subtitle: sampleProcessData.subtitle,
-          steps: sampleProcessData.steps.map(step => ({
-            number: step.number,
-            icon: step.icon,
-            title: step.title,
-            description: step.description,
-            color: step.color
-          }))
-        },
         contact: {
           title: sampleContactData.title,
           subtitle: sampleContactData.subtitle,
-          formLabels: {
-            name: sampleContactData.form.name,
-            email: sampleContactData.form.email,
-            phone: sampleContactData.form.phone,
-            voicePrompt: sampleContactData.form.voicePrompt,
-            voiceListening: sampleContactData.form.voiceListening,
-            voiceTranscript: sampleContactData.form.voiceTranscript,
-            submit: sampleContactData.form.submit
-          }
-        }
+        },
       }
     })
 

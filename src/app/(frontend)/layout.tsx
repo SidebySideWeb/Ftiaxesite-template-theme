@@ -89,19 +89,17 @@ export default async function FrontendLayout({
         logo: {
           type: header.logo?.type || 'text' as const,
           text: header.logo?.text || 'ftiaxesite.gr',
-          image: typeof header.logo?.image === 'object' && header.logo?.image ? { alt: 'Logo' } : undefined
         },
-        navigation: (header.navigation || []).map((item: { label: string; linkType?: string | null; sectionId?: string | null; externalUrl?: string | null; url?: string | null }) => ({
+        navigation: (header.navigation || []).map((item) => ({
           label: item.label,
           linkType: item.linkType === 'external' ? 'href' as const : 'section' as const,
-          sectionId: item.sectionId || undefined,
-          href: item.url || item.externalUrl || undefined
+          sectionId: item.linkType === 'section' ? item.url?.replace('#', '') : undefined,
+          href: item.linkType === 'external' ? (item.url || undefined) : (item.url || undefined)
         })),
         cta: header.cta?.enabled ? {
           label: header.cta.text || '',
-          linkType: header.cta.linkType === 'external' ? 'href' as const : 'section' as const,
-          sectionId: header.cta.sectionId || undefined,
-          href: header.cta.url || header.cta.externalUrl || undefined
+          linkType: 'href' as const,
+          href: header.cta.url || '#contact'
         } : undefined
       }
     }
@@ -115,19 +113,20 @@ export default async function FrontendLayout({
       footerData = {
         brand: {
           name: footer.company?.name || 'FtiAxesite.gr',
-          tagline: footer.company?.description || 'Δημιουργούμε μοντέρνες ιστοσελίδες που φέρνουν αποτελέσματα.'
+          tagline: footer.company?.description || 'Modern websites that deliver results.'
         },
         contact: {
-          title: 'Επικοινωνήστε μαζί μας',
+          title: 'Contact Us',
           email: footer.contact?.email || 'info@ftiaxesite.gr',
           phone: footer.contact?.phone || '+30 123 456 7890'
         },
         links: {
-          title: 'Γρήγοροι Σύνδεσμοι',
-          items: (footer.links?.quickLinks || []).map((link: { label: string; linkType?: string | null; sectionId?: string | null; externalUrl?: string | null; url?: string | null }) => ({
-            label: link.label,
-            href: link.url || (link.linkType === 'external' ? (link.externalUrl || '#') : `#${link.sectionId || 'top'}`)
-          }))
+          title: 'Quick Links',
+          items: [
+            { label: 'Home', href: '#hero' },
+            { label: 'Services', href: '#features' },
+            { label: 'Contact', href: '#contact' },
+          ]
         },
         social: {
           facebook: footer.social?.facebook || undefined,
@@ -135,7 +134,7 @@ export default async function FrontendLayout({
           linkedin: footer.social?.linkedin || undefined,
           twitter: footer.social?.twitter || undefined
         },
-        copyright: footer.company?.copyright || '© 2025 FtiAxesite.gr. Όλα τα δικαιώματα κατοχυρωμένα.'
+        copyright: footer.company?.copyright || '© 2025 FtiAxesite.gr. All rights reserved.'
       }
     }
   } catch (error) {
