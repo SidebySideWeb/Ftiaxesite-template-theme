@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /posts
+Disallow: /categories
+Disallow: /tags
+Disallow: /about
+Disallow: /contact
+
+# Allow only the landing page
+Allow: /$

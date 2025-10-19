@@ -1,0 +1,126 @@
+/* Critical CSS for above-the-fold content */
+:root {
+  --brand-navy: #0F1B3D; /* Updated for better contrast */
+  --brand-teal: #2D9A93; /* Updated for better contrast */
+  --brand-teal-dark: #1F6B66; /* High contrast version */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+}
+
+body { 
+  margin: 0;
+  color: var(--brand-navy); 
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container { 
+  margin: 0 auto; 
+  max-width: 80rem; 
+  padding: 0 1.5rem; 
+}
+
+@media (min-width: 768px) { 
+  .container { 
+    padding: 0 2rem; 
+  } 
+}
+
+/* Hero section critical styles */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.hero-headline {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-headline {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-headline {
+    font-size: 3.75rem;
+  }
+}
+
+/* Loading animation */
+.loading {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Brand utility classes for immediate use with improved contrast */
+.text-brand-navy {
+  color: #0F1B3D !important;
+}
+
+.text-brand-teal {
+  color: #2D9A93 !important;
+}
+
+.text-brand-teal-dark {
+  color: #1F6B66 !important;
+}
+
+.bg-brand-navy {
+  background-color: #0F1B3D !important;
+}
+
+.bg-brand-teal {
+  background-color: #2D9A93 !important;
+}
+
+.bg-brand-teal-dark {
+  background-color: #1F6B66 !important;
+}
+
+.border-brand-navy {
+  border-color: #0F1B3D !important;
+}
+
+.border-brand-teal {
+  border-color: #2D9A93 !important;
+}
+
+/* Focus states for accessibility */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--brand-navy);
+  outline-offset: 2px;
+}

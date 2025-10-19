@@ -1,0 +1,8 @@
+# This file ensures the images directory is tracked by git
+# Add your SEO images here:
+# - og-image-homepage.jpg (1200x630)
+# - og-image-services.jpg (1200x630)
+# - favicon.ico
+# - apple-touch-icon.png (180x180)
+# - icon-192.png (192x192)
+# - icon-512.png (512x512)
