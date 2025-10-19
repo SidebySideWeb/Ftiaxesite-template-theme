@@ -1,5 +1,5 @@
 // Health check for Docker container
-const http = require('http')
+import http from 'http'
 
 const options = {
   hostname: 'localhost',

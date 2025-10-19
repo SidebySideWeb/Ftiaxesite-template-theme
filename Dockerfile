@@ -63,6 +63,6 @@ ENV HOSTNAME "0.0.0.0"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-  CMD node healthcheck.js || exit 1
+  CMD node healthcheck.mjs || exit 1
 
 CMD ["node", "server.js"]

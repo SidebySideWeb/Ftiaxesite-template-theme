@@ -78,8 +78,8 @@ jobs:
     - name: 🏗️ Build and analyze
       run: npm run analyze
       env:
-        PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET_TEST }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}
+        PAYLOAD_SECRET: test-secret-key-for-ci
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         NEXT_PUBLIC_SITE_URL: https://your-domain.vercel.app
 
     - name: 📊 Upload bundle stats

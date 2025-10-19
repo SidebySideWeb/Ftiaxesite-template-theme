@@ -40,8 +40,8 @@ jobs:
       run: npm run build
       env:
         NODE_ENV: production
-        PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET_TEST }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}
+        PAYLOAD_SECRET: test-secret-key-for-ci
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
   # ===========================================
@@ -110,16 +110,16 @@ jobs:
     - name: 🏗️ Build application
       run: npm run build
       env:
-        PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET_TEST }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}
+        PAYLOAD_SECRET: test-secret-key-for-ci
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
     - name: ⚡ Lighthouse CI
       run: |
         npm install -g @lhci/cli@0.12.x
         lhci autorun
-      env:
-        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      # env:
+      #   LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
   # ===========================================
   # Security Scanning
@@ -147,64 +147,64 @@ jobs:
         sarif_file: 'trivy-results.sarif'
 
   # ===========================================
-  # Deployment (Production)
+  # Deployment (Production) - Configure secrets first
   # ===========================================
-  deploy-production:
-    name: 🚀 Deploy to Production
-    runs-on: ubuntu-latest
-    needs: [quality, test, performance, security]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    environment:
-      name: production
-      url: https://your-domain.vercel.app
-    
-    steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
+  # deploy-production:
+  #   name: 🚀 Deploy to Production
+  #   runs-on: ubuntu-latest
+  #   needs: [quality, test, performance, security]
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #   
+  #   environment:
+  #     name: production
+  #     url: https://your-domain.vercel.app
+  #   
+  #   steps:
+  #   - name: 📥 Checkout code
+  #     uses: actions/checkout@v4
 
-    - name: 🚀 Deploy to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        vercel-args: '--prod'
+  #   - name: 🚀 Deploy to Vercel
+  #     uses: amondnet/vercel-action@v25
+  #     with:
+  #       vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #       vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+  #       vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+  #       vercel-args: '--prod'
 
   # ===========================================
-  # Deployment (Preview)
+  # Deployment (Preview) - Configure secrets first
   # ===========================================
-  deploy-preview:
-    name: 🔍 Deploy Preview
-    runs-on: ubuntu-latest
-    needs: [quality, test]
-    if: github.event_name == 'pull_request'
-    
-    environment:
-      name: preview
-      url: https://your-project-git-${{ github.head_ref }}.vercel.app
-    
-    steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
+  # deploy-preview:
+  #   name: 🔍 Deploy Preview
+  #   runs-on: ubuntu-latest
+  #   needs: [quality, test]
+  #   if: github.event_name == 'pull_request'
+  #   
+  #   environment:
+  #     name: preview
+  #     url: https://your-project-git-${{ github.head_ref }}.vercel.app
+  #   
+  #   steps:
+  #   - name: 📥 Checkout code
+  #     uses: actions/checkout@v4
 
-    - name: 🔍 Deploy Preview to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+  #   - name: 🔍 Deploy Preview to Vercel
+  #     uses: amondnet/vercel-action@v25
+  #     with:
+  #       vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #       vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+  #       vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 
-    - name: 💬 Comment Preview URL
-      uses: actions/github-script@v7
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: '🔍 **Preview Deployment Ready!**\n\n✅ Your changes have been deployed to a preview environment.\n\n🔗 **Preview URL**: https://your-project-git-${{ github.head_ref }}.vercel.app\n\n⚡ **Performance**: Lighthouse scores will be available shortly.\n\n📊 **Bundle Size**: Check the build logs for bundle analysis.'
-          })
+  #   - name: 💬 Comment Preview URL
+  #     uses: actions/github-script@v7
+  #     with:
+  #       script: |
+  #         github.rest.issues.createComment({
+  #           issue_number: context.issue.number,
+  #           owner: context.repo.owner,
+  #           repo: context.repo.repo,
+  #           body: '🔍 **Preview Deployment Ready!**\n\n✅ Your changes have been deployed to a preview environment.\n\n🔗 **Preview URL**: https://your-project-git-${{ github.head_ref }}.vercel.app\n\n⚡ **Performance**: Lighthouse scores will be available shortly.\n\n📊 **Bundle Size**: Check the build logs for bundle analysis.'
+  #         })
 
   # ===========================================
   # Notification
@@ -212,18 +212,18 @@ jobs:
   notify:
     name: 📢 Notifications
     runs-on: ubuntu-latest
-    needs: [deploy-production, deploy-preview]
+    needs: [quality, test, performance, security]
     if: always()
     
     steps:
     - name: 📢 Notify on success
       if: ${{ success() }}
       run: |
-        echo "✅ Deployment successful!"
+        echo "✅ CI/CD pipeline completed successfully!"
         # Add Slack/Discord notification here if needed
 
     - name: 📢 Notify on failure
       if: ${{ failure() }}
       run: |
-        echo "❌ Deployment failed!"
+        echo "❌ CI/CD pipeline failed!"
         # Add Slack/Discord notification here if needed
