@@ -96,10 +96,10 @@ export default function Features({ data }: FeaturesProps) {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-navy mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-navy mb-4" style={{ fontFamily: 'Roboto, system-ui, sans-serif', textTransform: 'none' }}>
             {title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'Roboto, system-ui, sans-serif', textTransform: 'none' }}>
             {subtitle}
           </p>
         </div>
@@ -120,12 +120,12 @@ export default function Features({ data }: FeaturesProps) {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-navy mb-2">
+                <h3 className="font-semibold text-navy mb-2" style={{ fontSize: '16px', fontFamily: 'Roboto, system-ui, sans-serif', textTransform: 'none' }}>
                   {feature.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed" style={{ fontFamily: 'Roboto, system-ui, sans-serif', textTransform: 'none' }}>
                   {feature.description}
                 </p>
               </div>
