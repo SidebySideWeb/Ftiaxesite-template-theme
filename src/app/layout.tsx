@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "@payloadcms/next/css";
 import Performance from '@/components/Performance'
 import { Roboto, Roboto_Condensed } from 'next/font/google';
 
