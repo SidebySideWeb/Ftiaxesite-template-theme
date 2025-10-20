@@ -61,7 +61,6 @@ const Users: CollectionConfig = {
 const Media: CollectionConfig = {
   slug: 'media',
   upload: {
-    staticDir: 'media',
     mimeTypes: ['image/*'],
     imageSizes: [
       {
@@ -73,6 +72,7 @@ const Media: CollectionConfig = {
     ],
     adminThumbnail: 'thumbnail',
   },
+// cloudStorage plugin will be loaded dynamically below
   fields: [
     {
       name: 'alt',
@@ -477,5 +477,24 @@ export default buildConfig({
         },
       }),
   sharp,
-  plugins: [],
+  plugins: [
+    // Dynamically import the cloud storage plugin for Supabase
+    async () => {
+      const { cloudStorage } = await import('@payloadcms/plugin-cloud-storage');
+      return cloudStorage({
+        collections: {
+          media: {
+            adapter: 'supabase',
+            config: {
+              endpoint: process.env.SUPABASE_URL, // e.g. 'https://xyzcompany.supabase.co'
+              bucket: process.env.SUPABASE_BUCKET, // e.g. 'media'
+              accessKey: process.env.SUPABASE_ACCESS_KEY,
+              secretKey: process.env.SUPABASE_SECRET_KEY,
+              region: process.env.SUPABASE_REGION || 'us-east-1',
+            },
+          },
+        },
+      });
+    },
+  ],
 })
