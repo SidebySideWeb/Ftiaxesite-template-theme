@@ -468,9 +468,9 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // @ts-expect-error: Allow skipping DB adapter in CI (Payload does not support 'undefined' type here)
   db: process.env.SKIP_PAYLOAD_BUILD
-  ? (undefined as unknown as import('payload').DatabaseAdapterResult)
+    ? undefined
     : postgresAdapter({
         pool: {
           connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/payload',
