@@ -1,14 +1,10 @@
+import { postgresAdapter } from '@payloadcms/db-postgres';
 
-import { postgresAdapter } from '@payloadcms/db-postgres'
-import { slateEditor } from '@payloadcms/richtext-slate'
-import path from 'path'
 import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
-import sharp from 'sharp'
 import type { CollectionConfig, GlobalConfig, Field } from 'payload'
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage';
+import { supabaseAdapter } from '@/supabaseAdapter';
 
 // Inline seoFields to avoid import issues
 const seoFields: Field[] = [
@@ -72,7 +68,6 @@ const Media: CollectionConfig = {
     ],
     adminThumbnail: 'thumbnail',
   },
-// cloudStorage plugin will be loaded dynamically below
   fields: [
     {
       name: 'alt',
@@ -455,49 +450,32 @@ const BlogSettings: GlobalConfig = {
 }
 
 export default buildConfig({
-  admin: {
-    user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL!,
     },
-  },
-  collections: [Users, Media, Posts, Categories, Pages],
-  globals: [Header, Footer, Homepage, BlogSettings],
-  editor: slateEditor({}),
-  secret: process.env.PAYLOAD_SECRET || 'your-secret-here',
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  // @ts-expect-error: Allow skipping DB adapter in CI (Payload does not support 'undefined' type here)
-  db: process.env.SKIP_PAYLOAD_BUILD
-    ? undefined
-    : postgresAdapter({
-        pool: {
-          connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/payload',
-        },
-      }),
-  sharp,
+  }),
+  secret: process.env.PAYLOAD_SECRET!,
+  collections: [
+    Users,
+    Media,
+    Posts,
+    Categories,
+    Pages,
+  ],
+  globals: [
+    Header,
+    Footer,
+    Homepage,
+    BlogSettings,
+  ],
   plugins: [
-    // Dynamically import the cloud storage plugin for Supabase
-    async () => {
-      const plugin = await import('@payloadcms/plugin-cloud-storage');
-      // TEMP: Log the exports to debug import style
-      // Some Payload plugins export the function as the module itself
-  // @ts-expect-error: plugin is callable at runtime for Payload plugin interop
-  return plugin({
-        collections: {
-          media: {
-            adapter: 'supabase',
-            config: {
-              endpoint: process.env.SUPABASE_URL, // e.g. 'https://xyzcompany.supabase.co'
-              bucket: process.env.SUPABASE_BUCKET, // e.g. 'media'
-              accessKey: process.env.SUPABASE_ACCESS_KEY,
-              secretKey: process.env.SUPABASE_SECRET_KEY,
-              region: process.env.SUPABASE_REGION || 'us-east-1',
-            },
-          },
+    cloudStoragePlugin({
+      collections: {
+        media: {
+          adapter: supabaseAdapter,
         },
-      });
-    },
+      },
+    }),
   ],
 })
