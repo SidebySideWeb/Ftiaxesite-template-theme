@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Ensure Node.js 20.x and pnpm are used for all steps
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
@@ -20,7 +21,7 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Install dependencies
+      - name: Install dependencies (pnpm)
         run: pnpm install
       - name: Lint
         run: pnpm run lint
