@@ -118,9 +118,8 @@ jobs:
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
     - name: Kill process on port 3000
       run: |
-        if lsof -i:3000; then
-          lsof -i:3000 -t | xargs kill -9
-        fi
+        fuser -k 3000/tcp || true
+        sleep 2
       shell: bash
     - name: Install Lighthouse CI CLI
       run: npm install -g @lhci/cli@0.12.x
