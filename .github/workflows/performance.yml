@@ -41,15 +41,15 @@ jobs:
     - name: 📦 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
+        node-version: '20.x'
+        cache: 'pnpm'
 
     - name: 📚 Install dependencies
-      run: npm ci
+      run: pnpm install
 
     - name: ⚡ Measure Core Web Vitals
       run: |
-        npm install -g web-vitals-cli
+        pnpm add -g web-vitals-cli
         web-vitals https://your-domain.vercel.app --json > vitals.json
 
     - name: 📊 Upload metrics
@@ -69,14 +69,14 @@ jobs:
     - name: 📦 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
+        node-version: '20.x'
+        cache: 'pnpm'
 
     - name: 📚 Install dependencies
-      run: npm ci
+      run: pnpm install
 
     - name: 🏗️ Build and analyze
-      run: npm run analyze
+      run: pnpm run analyze
       env:
         PAYLOAD_SECRET: test-secret-key-for-ci
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
@@ -99,15 +99,15 @@ jobs:
     - name: 📦 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
+        node-version: '20.x'
+        cache: 'pnpm'
 
     - name: 📚 Install dependencies
-      run: npm ci
+      run: pnpm install
 
     - name: ♿ Run axe accessibility tests
       run: |
-        npm install -g @axe-core/cli
+        pnpm add -g @axe-core/cli
         axe https://your-domain.vercel.app --tags wcag2a,wcag2aa --format json > accessibility.json
 
     - name: 📊 Upload accessibility report
