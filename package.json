@@ -14,7 +14,7 @@
     "generate:types": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "create-first-user": "node scripts/create-first-user.js",
     "seed-homepage": "node -r ts-node/register seed-homepage.ts",
-    "postinstall": "node scripts/fix-payload-codeeditor.js",
+  "postinstall": "node scripts/fix-payload-codeeditor.js && payload generate:types",
     "docker:build": "docker build -t payload-nextjs .",
     "docker:run": "docker run -p 3000:3000 payload-nextjs",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up",
