@@ -480,7 +480,10 @@ export default buildConfig({
   plugins: [
     // Dynamically import the cloud storage plugin for Supabase
     async () => {
-      const { cloudStorage } = await import('@payloadcms/plugin-cloud-storage');
+      const plugin = await import('@payloadcms/plugin-cloud-storage');
+      // TEMP: Log the exports to debug import style
+  // @ts-expect-error: plugin.default is valid at runtime for Payload plugin interop
+  const cloudStorage = plugin.default;
       return cloudStorage({
         collections: {
           media: {
