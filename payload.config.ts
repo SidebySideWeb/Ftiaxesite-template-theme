@@ -76,9 +76,6 @@ const Media: CollectionConfig = {
       required: false,
     },
   ],
-  cloudStorage: {
-    adapter: supabaseAdapter,
-  },
 }
 
 // Posts collection
@@ -169,6 +166,7 @@ const Pages: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      editor: lexicalEditor(),
       required: true,
     },
     {
