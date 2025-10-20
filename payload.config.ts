@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import path from 'path'
@@ -467,6 +468,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   db: process.env.SKIP_PAYLOAD_BUILD
     ? (undefined as any)
     : postgresAdapter({
