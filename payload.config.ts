@@ -467,11 +467,13 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/payload',
-    },
-  }),
+  db: process.env.SKIP_PAYLOAD_BUILD
+    ? (undefined as any)
+    : postgresAdapter({
+        pool: {
+          connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/payload',
+        },
+      }),
   sharp,
   plugins: [],
 })
