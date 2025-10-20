@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import path from 'path'
@@ -470,7 +470,7 @@ export default buildConfig({
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   db: process.env.SKIP_PAYLOAD_BUILD
-    ? (undefined as any)
+  ? (undefined as unknown as import('payload').DatabaseAdapterResult)
     : postgresAdapter({
         pool: {
           connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/payload',
