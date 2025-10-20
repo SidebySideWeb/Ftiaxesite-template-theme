@@ -166,7 +166,7 @@ html {
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: 'Roboto', var(--font-sans), system-ui, sans-serif;
   }
 }
 
