@@ -21,6 +21,19 @@ jobs:
         with:
           node-version: 20.x
           cache: 'pnpm'
+      - name: Create .env.local from secrets
+        run: |
+          echo "SUPABASE_URL=$SUPABASE_URL" >> .env.local
+          echo "SUPABASE_SECRET_KEY=$SUPABASE_SECRET_KEY" >> .env.local
+          echo "SUPABASE_BUCKET=$SUPABASE_BUCKET" >> .env.local
+          echo "PAYLOAD_SECRET=$PAYLOAD_SECRET" >> .env.local
+          echo "DATABASE_URL=$DATABASE_URL" >> .env.local
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_BUCKET: ${{ secrets.SUPABASE_BUCKET }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Install dependencies (pnpm)
         run: pnpm install
       - name: Lint
