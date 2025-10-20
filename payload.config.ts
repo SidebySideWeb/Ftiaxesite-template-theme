@@ -482,9 +482,9 @@ export default buildConfig({
     async () => {
       const plugin = await import('@payloadcms/plugin-cloud-storage');
       // TEMP: Log the exports to debug import style
-  // @ts-expect-error: plugin.default is valid at runtime for Payload plugin interop
-  const cloudStorage = plugin.default;
-      return cloudStorage({
+      // Some Payload plugins export the function as the module itself
+  // @ts-expect-error: plugin is callable at runtime for Payload plugin interop
+  return plugin({
         collections: {
           media: {
             adapter: 'supabase',
