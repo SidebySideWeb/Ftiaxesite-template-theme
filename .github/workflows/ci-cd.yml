@@ -118,8 +118,8 @@ jobs:
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
     - name: Install Lighthouse CI CLI
       run: npm install -g @lhci/cli@0.12.x
-    - name: ⚡ Lighthouse CI
-      run: lhci autorun
+    # - name: ⚡ Lighthouse CI
+    #   run: lhci autorun
 
     - name: ⚡ Lighthouse CI
       run: |
