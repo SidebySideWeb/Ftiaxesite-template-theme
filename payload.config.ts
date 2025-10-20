@@ -1,3 +1,4 @@
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 
 import { buildConfig } from 'payload'
@@ -75,6 +76,9 @@ const Media: CollectionConfig = {
       required: false,
     },
   ],
+  cloudStorage: {
+    adapter: supabaseAdapter,
+  },
 }
 
 // Posts collection
@@ -101,6 +105,7 @@ const Posts: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      editor: lexicalEditor(),
       required: true,
     },
     {
