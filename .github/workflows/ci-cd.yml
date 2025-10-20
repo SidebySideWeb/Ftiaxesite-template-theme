@@ -37,7 +37,7 @@ jobs:
     #   run: npm audit --audit-level high
 
     - name: 📊 Bundle analysis
-      run: npm run build
+      run: SKIP_PAYLOAD_BUILD=1 npm run build
       env:
         NODE_ENV: production
         PAYLOAD_SECRET: test-secret-key-for-ci
@@ -108,7 +108,7 @@ jobs:
       run: npm ci
 
     - name: 🏗️ Build application
-      run: npm run build
+      run: SKIP_PAYLOAD_BUILD=1 npm run build
       env:
         PAYLOAD_SECRET: test-secret-key-for-ci
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
