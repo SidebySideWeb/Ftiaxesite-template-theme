@@ -116,6 +116,8 @@ jobs:
         PAYLOAD_SECRET: test-secret-key-for-ci
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    - name: Install Lighthouse CI CLI
+      run: npm install -g @lhci/cli@0.12.x
     - name: 🚀 Start Next.js server
       run: npm run start &
       env:
