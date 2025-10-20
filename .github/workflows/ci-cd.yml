@@ -1,3 +1,6 @@
+
+permissions:
+  security-events: write
 name: 🚀 CI/CD Pipeline
 
 on:
